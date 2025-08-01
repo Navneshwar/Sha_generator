@@ -7,52 +7,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     status.textContent = "Loading SHA-0...";
     generateBtn.disabled = true;
 
-    try {
-        // Load Emscripten's glue code
-        const script = document.createElement('script');
-        script.src = 'wasm/sha0.js';
-        document.body.appendChild(script);
+    // Wait for Emscripten to initialize
+    Module = {};
+    Module.onRuntimeInitialized = () => {
+        generateBtn.disabled = false;
+        status.textContent = "SHA-0 Ready!";
+    };
 
-        script.onload = async () => {
-            // Wait for WASM initialization
-            await new Promise(resolve => {
-                Module.onRuntimeInitialized = resolve;
-            });
+    generateBtn.addEventListener('click', () => {
+        const text = inputText.value.trim();
+        if (!text) {
+            status.textContent = "Please enter text first!";
+            return;
+        }
 
-            generateBtn.disabled = false;
-            status.textContent = "SHA-0 Ready!";
-
-            generateBtn.addEventListener('click', () => {
-                const text = inputText.value.trim();
-                if (!text) {
-                    status.textContent = "Enter text first!";
-                    return;
-                }
-
-                try {
-                    status.textContent = "Computing hash...";
-                    const hash = Module.ccall(
-                        'sha0_hash_wasm',
-                        'string',
-                        ['string'],
-                        [text]
-                    );
-                    outputHash.value = hash;
-                    status.textContent = "Hash generated!";
-                } catch (error) {
-                    status.textContent = "Error: " + error.message;
-                    console.error(error);
-                }
-            });
-        };
-
-        script.onerror = () => {
-            status.textContent = "Failed to load sha0.js";
-            console.error("sha0.js failed to load");
-        };
-
-    } catch (error) {
-        status.textContent = "Error: " + error.message;
-        console.error(error);
-    }
+        try {
+            status.textContent = "Computing hash...";
+            const hash = Module.ccall(
+                'sha0_hash_wasm',
+                'string',
+                ['string'],
+                [text]
+            );
+            outputHash.value = hash;
+            status.textContent = "Hash generated!";
+        } catch (error) {
+            status.textContent = "Error: " + error.message;
+            console.error(error);
+        }
+    });
 });
