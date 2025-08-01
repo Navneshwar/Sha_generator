@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHA Hash Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glass-container">
+        <h1>SHA Hash Generator</h1>
+        <div class="input-group">
+            <label for="inputText">Enter text to hash:</label>
+            <textarea id="inputText" rows="4" placeholder="Type or paste your text here..."></textarea>
+        </div>
+        
+        <div class="settings-group">
+            <label for="shaVersion">Select SHA Version:</label>
+            <select id="shaVersion">
+                <option value="sha0">SHA-0 (Original)</option>
+                <option value="sha1">SHA-1 (Common)</option>
+                <option value="sha256">SHA-256 (SHA-2 Family)</option>
+            </select>
+        </div>
+        
+        <button id="generateBtn">Generate Hash</button>
+        
+        <div class="output-group">
+            <label for="outputHash">Hash Result:</label>
+            <textarea id="outputHash" rows="4" readonly></textarea>
+        </div>
+        
+        <div class="status" id="status"></div>
+    </div>
+
+    <!-- Load our WASM helper and then the app logic -->
+    <script src="wasm/wasm_loader.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
