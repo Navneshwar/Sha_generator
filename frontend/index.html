@@ -18,8 +18,6 @@
             <label for="shaVersion">Select SHA Version:</label>
             <select id="shaVersion">
                 <option value="sha0">SHA-0 (Original)</option>
-                <option value="sha1">SHA-1 (Common)</option>
-                <option value="sha256">SHA-256 (SHA-2 Family)</option>
             </select>
         </div>
         
@@ -33,8 +31,8 @@
         <div class="status" id="status"></div>
     </div>
 
-    <!-- Load our WASM helper and then the app logic -->
-    <script src="wasm/wasm_loader.js"></script>
+    <!-- Load SHA-0 directly -->
+    <script src="wasm/sha0.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
